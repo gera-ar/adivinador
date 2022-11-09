@@ -6,7 +6,6 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 from pygame import mixer
 mixer.init()
-mixer.music.load("sonidos/init.ogg")
 silvato = mixer.Sound("sonidos/start.ogg")
 winner = mixer.Sound("sonidos/winner.ogg")
 looser = mixer.Sound("sonidos/looser.ogg")
@@ -59,11 +58,12 @@ class Configuraciones():
 			else:
 				print("Has ingresado un valor incorrecto. Vuelve a intentarlo")
 		self.rand = randint(1, self.num_max)
-		sleep(1)
+		sleep(1.8)
 		mixer.music.stop()
 		silvato.play()
 		sleep(1)
 
+mixer.music.load("sonidos/init.ogg")
 mixer.music.play(-1)
 print("¡Adivinador!")
 sleep(2)
@@ -72,9 +72,9 @@ configuraciones = Configuraciones()
 
 mixer.music.load("sonidos/background.ogg")
 mixer.music.play(-1)
-mixer.music.set_volume(0.2)
+mixer.music.set_volume(0.1)
 
-while configuraciones.ronda <= configuraciones.rondas:
+def rondas():
 	if configuraciones.ronda == 1:
 		print(f"¡Que comience el juego!. El número que debes adivinar está entre 1 y {configuraciones.num_max}. Cuál es tu apuesta? Tienes {configuraciones.rondas} oportunidades")
 	elif configuraciones.ronda == configuraciones.rondas:
@@ -82,6 +82,8 @@ while configuraciones.ronda <= configuraciones.rondas:
 	else:
 		print(f"ronda {configuraciones.ronda}")
 
+while configuraciones.ronda <= configuraciones.rondas:
+	rondas()
 	try:
 		usuario = int(input())
 	except ValueError:
@@ -106,7 +108,6 @@ while configuraciones.ronda <= configuraciones.rondas:
 			print("nops... 😳. Es un número mayor...")
 	configuraciones.ronda+=1
 	next.play()
-	
 
 mixer.music.stop()
 looser.play()
