@@ -72,6 +72,7 @@ configuraciones = Configuraciones()
 
 mixer.music.load("sonidos/background.ogg")
 mixer.music.play(-1)
+mixer.music.set_volume(0.2)
 
 while configuraciones.ronda <= configuraciones.rondas:
 	if configuraciones.ronda == 1:
