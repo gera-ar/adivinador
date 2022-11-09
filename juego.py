@@ -64,6 +64,7 @@ class Configuraciones():
 		sleep(1)
 
 class Juego():
+
 	def __init__(self):
 		mixer.music.load("sonidos/init.ogg")
 		mixer.music.play(-1)
@@ -87,13 +88,8 @@ class Juego():
 				print("Fuera de rango")
 				continue
 			if usuario == self.configuraciones.rand:
-					print("¡Cooooorrecto! 🫂 🥳")
-					mixer.music.stop()
-					winner.play()
-					sleep(6)
-					print(f"Felicitaciones {self.configuraciones.jugador}. Has ganado en la ronda {self.configuraciones.ronda}")
-					sleep(3)
-					exit()
+				self.winner()
+				break
 			elif usuario > self.configuraciones.rand:
 				if self.configuraciones.ronda < self.configuraciones.rondas:
 					print("nops..d. 😳. Es un número menor")
@@ -102,14 +98,29 @@ class Juego():
 					print("nops... 😳. Es un número mayor...")
 			self.configuraciones.ronda+=1
 			next.play()
+		self.looser()
+
+	def winner(self):
+		print("¡Cooooorrecto! 🫂 🥳")
+		mixer.music.stop()
+		winner.play()
+		sleep(6)
+		print(f"Felicitaciones {self.configuraciones.jugador}. Has ganado en la ronda {self.configuraciones.ronda}")
+		sleep(3)
 		self.finish()
 
-	def finish(self):
+	def looser(self):
 		mixer.music.stop()
 		looser.play()
 		sleep(2.5)
 		print(f"😥. El número secreto era el {self.configuraciones.rand}. Has perdido el juego {self.configuraciones.jugador}. Otra vez será!")
 		sleep(2)
+		self.finish()
+
+	def finish(self):
+		print("Gracias por jugar")
+		sleep(2)
+		exit()
 
 	def rondas(self):
 		if self.configuraciones.ronda == 1:
