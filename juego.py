@@ -6,6 +6,11 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 from pygame import mixer
 mixer.init()
+mixer.music.load("sonidos/init.ogg")
+silvato = mixer.Sound("sonidos/start.ogg")
+winner = mixer.Sound("sonidos/winner.ogg")
+looser = mixer.Sound("sonidos/looser.ogg")
+next = mixer.Sound("sonidos/next.ogg")
 
 class Configuraciones():
 	def __init__(self):
@@ -24,7 +29,6 @@ class Configuraciones():
 			print(f"Bienvenido {self.jugador}!\nEs momento de personalizar un poco el aspecto de el fondo y las letras. Comencemos por el fondo, y luego las letras.\nEscribe el color que quieras y al finalizar pulsa intro. Los colores disponibles son:")
 			for color in self.colores:
 				print(color)
-				sleep(0.3)
 			fondo = input("ingresa el color de fondo")
 			if fondo in self.colores:
 				caracteres = input("Ahora ingresa el color de los caracteres")
@@ -55,16 +59,19 @@ class Configuraciones():
 			else:
 				print("Has ingresado un valor incorrecto. Vuelve a intentarlo")
 		self.rand = randint(1, self.num_max)
+		sleep(1)
+		mixer.music.stop()
+		silvato.play()
+		sleep(1)
 
-mixer.music.load("sonidos/background.ogg")
-winner = mixer.Sound("sonidos/winner.ogg")
-looser = mixer.Sound("sonidos/looser.ogg")
-next = mixer.Sound("sonidos/next.ogg")
 mixer.music.play(-1)
 print("¡Adivinador!")
 sleep(2)
 
 configuraciones = Configuraciones()
+
+mixer.music.load("sonidos/background.ogg")
+mixer.music.play(-1)
 
 while configuraciones.ronda <= configuraciones.rondas:
 	if configuraciones.ronda == 1:
@@ -87,7 +94,7 @@ while configuraciones.ronda <= configuraciones.rondas:
 			mixer.music.stop()
 			winner.play()
 			sleep(6)
-			print(f"Felicitaciones {configuraciones.jugador}. Has ganado en {configuraciones.ronda} oportunidades")
+			print(f"Felicitaciones {configuraciones.jugador}. Has ganado en la ronda {configuraciones.ronda}")
 			sleep(3)
 			exit()
 	elif usuario > configuraciones.rand:
