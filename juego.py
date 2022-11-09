@@ -63,54 +63,60 @@ class Configuraciones():
 		silvato.play()
 		sleep(1)
 
-mixer.music.load("sonidos/init.ogg")
-mixer.music.play(-1)
-print("¡Adivinador!")
-sleep(2)
+class Juego():
+	def __init__(self):
+		mixer.music.load("sonidos/init.ogg")
+		mixer.music.play(-1)
+		print("¡Adivinador!")
+		sleep(2)
+		self.configuraciones = Configuraciones()
+		self.start()
 
-configuraciones = Configuraciones()
+	def start(self):
+		mixer.music.load("sonidos/background.ogg")
+		mixer.music.play(-1)
+		mixer.music.set_volume(0.1)
+		while self.configuraciones.ronda <= self.configuraciones.rondas:
+			self.rondas()
+			try:
+				usuario = int(input())
+			except ValueError:
+				print("Valor incorrecto")
+				continue
+			if usuario < 1 or usuario > self.configuraciones.num_max:
+				print("Fuera de rango")
+				continue
+			if usuario == self.configuraciones.rand:
+					print("¡Cooooorrecto! 🫂 🥳")
+					mixer.music.stop()
+					winner.play()
+					sleep(6)
+					print(f"Felicitaciones {self.configuraciones.jugador}. Has ganado en la ronda {self.configuraciones.ronda}")
+					sleep(3)
+					exit()
+			elif usuario > self.configuraciones.rand:
+				if self.configuraciones.ronda < self.configuraciones.rondas:
+					print("nops..d. 😳. Es un número menor")
+			elif usuario < self.configuraciones.rand:
+				if self.configuraciones.ronda < self.configuraciones.rondas:
+					print("nops... 😳. Es un número mayor...")
+			self.configuraciones.ronda+=1
+			next.play()
+		self.finish()
 
-mixer.music.load("sonidos/background.ogg")
-mixer.music.play(-1)
-mixer.music.set_volume(0.1)
+	def finish(self):
+		mixer.music.stop()
+		looser.play()
+		sleep(2.5)
+		print(f"😥. El número secreto era el {self.configuraciones.rand}. Has perdido el juego {self.configuraciones.jugador}. Otra vez será!")
+		sleep(2)
 
-def rondas():
-	if configuraciones.ronda == 1:
-		print(f"¡Que comience el juego!. El número que debes adivinar está entre 1 y {configuraciones.num_max}. Cuál es tu apuesta? Tienes {configuraciones.rondas} oportunidades")
-	elif configuraciones.ronda == configuraciones.rondas:
-		print("¡última oportunidad! 😨")
-	else:
-		print(f"ronda {configuraciones.ronda}")
+	def rondas(self):
+		if self.configuraciones.ronda == 1:
+			print(f"¡Que comience el juego!. El número que debes adivinar está entre 1 y {self.configuraciones.num_max}. Cuál es tu apuesta? Tienes {self.configuraciones.rondas} oportunidades")
+		elif self.configuraciones.ronda == self.configuraciones.rondas:
+			print("¡última oportunidad! 😨")
+		else:
+			print(f"ronda {self.configuraciones.ronda}")
 
-while configuraciones.ronda <= configuraciones.rondas:
-	rondas()
-	try:
-		usuario = int(input())
-	except ValueError:
-		print("Valor incorrecto")
-		continue
-	if usuario < 1 or usuario > configuraciones.num_max:
-		print("Fuera de rango")
-		continue
-	if usuario == configuraciones.rand:
-			print("¡Cooooorrecto! 🫂 🥳")
-			mixer.music.stop()
-			winner.play()
-			sleep(6)
-			print(f"Felicitaciones {configuraciones.jugador}. Has ganado en la ronda {configuraciones.ronda}")
-			sleep(3)
-			exit()
-	elif usuario > configuraciones.rand:
-		if configuraciones.ronda < configuraciones.rondas:
-			print("nops..d. 😳. Es un número menor")
-	elif usuario < configuraciones.rand:
-		if configuraciones.ronda < configuraciones.rondas:
-			print("nops... 😳. Es un número mayor...")
-	configuraciones.ronda+=1
-	next.play()
-
-mixer.music.stop()
-looser.play()
-sleep(2.5)
-print(f"😥. El número secreto era el {configuraciones.rand}. Has perdido el juego {configuraciones.jugador}. Otra vez será!")
-sleep(2)
+Juego()
