@@ -20,6 +20,7 @@ class Configuraciones():
 		self.fondo = None
 		self.letras = None
 		self.jugador = None
+		self.dificultad = None
 		self.init()
 
 	def init(self):
@@ -39,18 +40,18 @@ class Configuraciones():
 
 	def seleccionar_dificultad(self):
 		while True:
-			dificultad = input("Ahora es el turno de la dificultad. Ingresa el número de opción y pulsa intro:\n1 Facilona\n2 Solo para valientes\n3 ¡imposible!")
-			if dificultad == "1":
+			self.dificultad = input("Ahora es el turno de la dificultad. Ingresa el número de opción y pulsa intro:\n1 Facilona\n2 Solo para valientes\n3 ¡imposible!")
+			if self.dificultad == "1":
 				self.num_max = 20
 				self.rondas = 6
 				print("Has seleccionado la opción 1. A ver como te va con la facilona...")
 				break
-			elif dificultad == "2":
+			elif self.dificultad == "2":
 				self.num_max = 50
 				self.rondas = 7
 				print("¡Apa! Aquí tenemos a alguien valiente. Mucha suerte...")
 				break
-			elif dificultad == "3":
+			elif self.dificultad == "3":
 				self.num_max = 100
 				self.rondas = 8
 				print("!Atención! Una personita intrépida que se le anima al imposible. A cruzar los dedos...")
@@ -107,17 +108,19 @@ class Juego():
 		sleep(6)
 		print(f"Felicitaciones {self.configuraciones.jugador}. Has ganado en la ronda {self.configuraciones.ronda}")
 		sleep(2)
-		self.finish()
+		self.finish("Victoria")
 
 	def looser(self):
 		mixer.music.stop()
 		LOOSER.play()
 		sleep(2.5)
 		print(f"😥. El número secreto era el {self.configuraciones.rand}. Has perdido el juego {self.configuraciones.jugador}. Otra vez será!")
-		sleep(2)
-		self.finish()
+		sleep(3)
+		self.finish("Derrota")
 
-	def finish(self):
+	def finish(self, estado):
+		with open("historial.txt", "a") as file:
+			file.write(f"jugador: {self.configuraciones.jugador}- Resultado: {estado}- dificultad: {self.configuraciones.dificultad}- rondas: {self.configuraciones.ronda}\n")
 		print("Gracias por jugar")
 		sleep(1.5)
 		exit()

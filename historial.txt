@@ -1,0 +1,6 @@
+jugador: gera- dificultad: 3- rondas: 7- ganado
+jugador: mariana- dificultad: 3- rondas: 2- ganado
+jugador: mateo- dificultad: 3- rondas: 5- ganado
+jugador: chamu- dificultad: 1- rondas: 7- perdido
+jugador: gera- Derrota- dificultad: 1- rondas: 7
+jugador: gera- Resultado: Derrota- dificultad: 1- rondas: 7
