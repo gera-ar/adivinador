@@ -6,10 +6,10 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 from pygame import mixer
 mixer.init()
-silvato = mixer.Sound("sonidos/start.ogg")
-winner = mixer.Sound("sonidos/winner.ogg")
-looser = mixer.Sound("sonidos/looser.ogg")
-next = mixer.Sound("sonidos/next.ogg")
+SILVATO = mixer.Sound("sonidos/start.ogg")
+WINNER = mixer.Sound("sonidos/winner.ogg")
+LOOSER = mixer.Sound("sonidos/looser.ogg")
+NEXT = mixer.Sound("sonidos/next.ogg")
 
 class Configuraciones():
 	def __init__(self):
@@ -60,7 +60,7 @@ class Configuraciones():
 		self.rand = randint(1, self.num_max)
 		sleep(1.8)
 		mixer.music.stop()
-		silvato.play()
+		SILVATO.play()
 		sleep(1)
 
 class Juego():
@@ -76,7 +76,7 @@ class Juego():
 	def start(self):
 		mixer.music.load("sonidos/background.ogg")
 		mixer.music.play(-1)
-		mixer.music.set_volume(0.1)
+		mixer.music.set_volume(0.2)
 		while self.configuraciones.ronda <= self.configuraciones.rondas:
 			self.rondas()
 			try:
@@ -97,21 +97,21 @@ class Juego():
 				if self.configuraciones.ronda < self.configuraciones.rondas:
 					print("nops... 😳. Es un número mayor...")
 			self.configuraciones.ronda+=1
-			next.play()
+			NEXT.play()
 		self.looser()
 
 	def winner(self):
 		print("¡Cooooorrecto! 🫂 🥳")
 		mixer.music.stop()
-		winner.play()
+		WINNER.play()
 		sleep(6)
 		print(f"Felicitaciones {self.configuraciones.jugador}. Has ganado en la ronda {self.configuraciones.ronda}")
-		sleep(3)
+		sleep(2)
 		self.finish()
 
 	def looser(self):
 		mixer.music.stop()
-		looser.play()
+		LOOSER.play()
 		sleep(2.5)
 		print(f"😥. El número secreto era el {self.configuraciones.rand}. Has perdido el juego {self.configuraciones.jugador}. Otra vez será!")
 		sleep(2)
@@ -119,7 +119,7 @@ class Juego():
 
 	def finish(self):
 		print("Gracias por jugar")
-		sleep(2)
+		sleep(1.5)
 		exit()
 
 	def rondas(self):
